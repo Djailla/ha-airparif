@@ -1,0 +1,84 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "AirParif",
+        "description": "Enter your AirParif API key and the INSEE code of your commune (for example 75117 for Paris 17e).",
+        "data": {
+          "api_key": "API key",
+          "insee": "INSEE code"
+        },
+        "data_description": {
+          "api_key": "Your key for the AirParif API (sent as the X-Api-Key header).",
+          "insee": "5-digit INSEE code of the commune or Paris arrondissement."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate AirParif",
+        "description": "The API key for INSEE {insee} was rejected. Enter a valid key.",
+        "data": {
+          "api_key": "API key"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to the AirParif API.",
+      "invalid_auth": "The API key was rejected.",
+      "invalid_insee": "This INSEE code is not valid or not covered by AirParif.",
+      "no_data": "The API returned no forecast for this INSEE code.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This commune is already configured.",
+      "reauth_successful": "Re-authentication was successful."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "index_today": {
+        "name": "Air quality today",
+        "state": {
+          "bon": "Good",
+          "moyen": "Moderate",
+          "degrade": "Degraded",
+          "mauvais": "Poor",
+          "tres_mauvais": "Very poor",
+          "extremement_mauvais": "Extremely poor"
+        }
+      },
+      "index_tomorrow": {
+        "name": "Air quality tomorrow",
+        "state": {
+          "bon": "Good",
+          "moyen": "Moderate",
+          "degrade": "Degraded",
+          "mauvais": "Poor",
+          "tres_mauvais": "Very poor",
+          "extremement_mauvais": "Extremely poor"
+        }
+      },
+      "pollutant_today": {
+        "name": "{pollutant} today",
+        "state": {
+          "bon": "Good",
+          "moyen": "Moderate",
+          "degrade": "Degraded",
+          "mauvais": "Poor",
+          "tres_mauvais": "Very poor",
+          "extremement_mauvais": "Extremely poor"
+        }
+      },
+      "pollutant_tomorrow": {
+        "name": "{pollutant} tomorrow",
+        "state": {
+          "bon": "Good",
+          "moyen": "Moderate",
+          "degrade": "Degraded",
+          "mauvais": "Poor",
+          "tres_mauvais": "Very poor",
+          "extremement_mauvais": "Extremely poor"
+        }
+      }
+    }
+  }
+}

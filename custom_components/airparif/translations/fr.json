@@ -1,0 +1,84 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "AirParif",
+        "description": "Saisissez votre clé API AirParif et le code INSEE de votre commune (par exemple 75117 pour Paris 17e).",
+        "data": {
+          "api_key": "Clé API",
+          "insee": "Code INSEE"
+        },
+        "data_description": {
+          "api_key": "Votre clé pour l'API AirParif (envoyée dans l'en-tête X-Api-Key).",
+          "insee": "Code INSEE à 5 chiffres de la commune ou de l'arrondissement parisien."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Réauthentifier AirParif",
+        "description": "La clé API pour le code INSEE {insee} a été refusée. Saisissez une clé valide.",
+        "data": {
+          "api_key": "Clé API"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossible de se connecter à l'API AirParif.",
+      "invalid_auth": "La clé API a été refusée.",
+      "invalid_insee": "Ce code INSEE n'est pas valide ou n'est pas couvert par AirParif.",
+      "no_data": "L'API n'a renvoyé aucune prévision pour ce code INSEE.",
+      "unknown": "Erreur inattendue."
+    },
+    "abort": {
+      "already_configured": "Cette commune est déjà configurée.",
+      "reauth_successful": "Réauthentification réussie."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "index_today": {
+        "name": "Qualité de l'air aujourd'hui",
+        "state": {
+          "bon": "Bon",
+          "moyen": "Moyen",
+          "degrade": "Dégradé",
+          "mauvais": "Mauvais",
+          "tres_mauvais": "Très mauvais",
+          "extremement_mauvais": "Extrêmement mauvais"
+        }
+      },
+      "index_tomorrow": {
+        "name": "Qualité de l'air demain",
+        "state": {
+          "bon": "Bon",
+          "moyen": "Moyen",
+          "degrade": "Dégradé",
+          "mauvais": "Mauvais",
+          "tres_mauvais": "Très mauvais",
+          "extremement_mauvais": "Extrêmement mauvais"
+        }
+      },
+      "pollutant_today": {
+        "name": "{pollutant} aujourd'hui",
+        "state": {
+          "bon": "Bon",
+          "moyen": "Moyen",
+          "degrade": "Dégradé",
+          "mauvais": "Mauvais",
+          "tres_mauvais": "Très mauvais",
+          "extremement_mauvais": "Extrêmement mauvais"
+        }
+      },
+      "pollutant_tomorrow": {
+        "name": "{pollutant} demain",
+        "state": {
+          "bon": "Bon",
+          "moyen": "Moyen",
+          "degrade": "Dégradé",
+          "mauvais": "Mauvais",
+          "tres_mauvais": "Très mauvais",
+          "extremement_mauvais": "Extrêmement mauvais"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "domain": "airparif",
+  "name": "AirParif",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/your-github-user/ha-airparif",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/your-github-user/ha-airparif/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
