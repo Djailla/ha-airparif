@@ -53,7 +53,9 @@ class AirParifSensor(CoordinatorEntity[AirParifCoordinator], SensorEntity):
         insee = coordinator.insee
         key = pollutant or "index"
         self._attr_unique_id = f"{insee}_{day}_{key}"
-        self._attr_translation_key = f"{key if pollutant is None else 'pollutant'}_{day}"
+        self._attr_translation_key = (
+            f"{key if pollutant is None else 'pollutant'}_{day}"
+        )
         if pollutant:
             self._attr_translation_placeholders = {
                 "pollutant": POLLUTANT_NAMES[pollutant]

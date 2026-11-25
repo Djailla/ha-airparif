@@ -8,10 +8,10 @@ date, pollutants as keys / nested mapping / list) and numeric or textual levels.
 
 from __future__ import annotations
 
-from datetime import date, datetime
 import re
-from typing import Any
 import unicodedata
+from datetime import date, datetime
+from typing import Any
 
 # ATMO index scale (1..6).
 INDEX_LEVELS: tuple[str, ...] = (

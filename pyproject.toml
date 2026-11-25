@@ -1,0 +1,25 @@
+[tool.ruff]
+target-version = "py313"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "B",     # flake8-bugbear
+    "BLE",   # flake8-blind-except
+    "UP",    # pyupgrade
+    "SIM",   # flake8-simplify
+    "ASYNC", # flake8-async
+    "RUF",   # ruff-specific
+]
+ignore = [
+    "E501",   # line length is handled by the formatter
+    "RUF012", # HA entity _attr_* class attributes are intentionally mutable
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["homeassistant"]
+combine-as-imports = true

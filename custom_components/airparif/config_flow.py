@@ -45,7 +45,7 @@ class AirParifConfigFlow(ConfigFlow, domain=DOMAIN):
             return "cannot_connect"
         except AirParifApiError:
             return "cannot_connect"
-        except Exception:  # noqa: BLE001
+        except Exception:
             _LOGGER.exception("Unexpected error validating AirParif settings")
             return "unknown"
         if not normalize_forecast(payload, insee):
@@ -78,7 +78,9 @@ class AirParifConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_API_KEY, default=defaults.get(CONF_API_KEY, "")): str,
+                    vol.Required(
+                        CONF_API_KEY, default=defaults.get(CONF_API_KEY, "")
+                    ): str,
                     vol.Required(CONF_INSEE, default=defaults.get(CONF_INSEE, "")): str,
                 }
             ),
