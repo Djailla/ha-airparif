@@ -9,8 +9,8 @@
           "insee": "Code INSEE"
         },
         "data_description": {
-          "api_key": "Votre clé pour l'API AirParif (envoyée dans l'en-tête X-Api-Key).",
-          "insee": "Code INSEE à 5 chiffres de la commune ou de l'arrondissement parisien."
+          "api_key": "Votre clé pour l'API AirParif (envoyée dans l'en-tête X-Api-Key). Demandez-en une sur la [page de l'API AirParif]({api_key_url}).",
+          "insee": "Code INSEE à 5 chiffres de la commune ou de l'arrondissement parisien. Ce n'est pas le code postal : retrouvez-le dans la [table de correspondance code INSEE / code postal]({insee_url})."
         }
       },
       "reauth_confirm": {
@@ -18,6 +18,9 @@
         "description": "La clé API pour le code INSEE {insee} a été refusée. Saisissez une clé valide.",
         "data": {
           "api_key": "Clé API"
+        },
+        "data_description": {
+          "api_key": "Demandez une nouvelle clé sur la [page de l'API AirParif]({api_key_url})."
         }
       }
     },

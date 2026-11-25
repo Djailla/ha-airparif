@@ -19,7 +19,7 @@ from .api import (
     AirParifConnectionError,
     AirParifInvalidInseeError,
 )
-from .const import CONF_API_KEY, CONF_INSEE, DOMAIN
+from .const import API_KEY_URL, CONF_API_KEY, CONF_INSEE, DOMAIN, INSEE_LOOKUP_URL
 from .parser import normalize_forecast
 
 _LOGGER = logging.getLogger(__name__)
@@ -84,6 +84,10 @@ class AirParifConfigFlow(ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_INSEE, default=defaults.get(CONF_INSEE, "")): str,
                 }
             ),
+            description_placeholders={
+                "api_key_url": API_KEY_URL,
+                "insee_url": INSEE_LOOKUP_URL,
+            },
             errors=errors,
         )
 
@@ -111,6 +115,9 @@ class AirParifConfigFlow(ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="reauth_confirm",
             data_schema=vol.Schema({vol.Required(CONF_API_KEY): str}),
-            description_placeholders={CONF_INSEE: entry.data[CONF_INSEE]},
+            description_placeholders={
+                CONF_INSEE: entry.data[CONF_INSEE],
+                "api_key_url": API_KEY_URL,
+            },
             errors=errors,
         )

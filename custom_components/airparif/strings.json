@@ -9,8 +9,8 @@
           "insee": "INSEE code"
         },
         "data_description": {
-          "api_key": "Your key for the AirParif API (sent as the X-Api-Key header).",
-          "insee": "5-digit INSEE code of the commune or Paris arrondissement."
+          "api_key": "Your key for the AirParif API (sent as the X-Api-Key header). Request one on the [AirParif API page]({api_key_url}).",
+          "insee": "5-digit INSEE code of the commune or Paris arrondissement. This is not the postal code: look it up in the [INSEE / postal code table]({insee_url})."
         }
       },
       "reauth_confirm": {
@@ -18,6 +18,9 @@
         "description": "The API key for INSEE {insee} was rejected. Enter a valid key.",
         "data": {
           "api_key": "API key"
+        },
+        "data_description": {
+          "api_key": "Request a new key on the [AirParif API page]({api_key_url})."
         }
       }
     },
