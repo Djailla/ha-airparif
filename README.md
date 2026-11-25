@@ -1,5 +1,7 @@
 # AirParif pour Home Assistant
 
+🇫🇷 Français · 🇬🇧 [English](#airparif-for-home-assistant)
+
 Intégration personnalisée qui expose dans Home Assistant, sous forme de capteurs,
 les prévisions de qualité de l'air AirParif par commune
 (`/indices/prevision/commune`) et les épisodes de pollution en Île-de-France
@@ -7,10 +9,14 @@ les prévisions de qualité de l'air AirParif par commune
 
 ## Installation
 
-Copiez `custom_components/airparif` dans le dossier `config/custom_components/` de
-votre Home Assistant (ou ajoutez ce dépôt à HACS comme dépôt personnalisé),
-redémarrez Home Assistant, puis allez dans **Paramètres → Appareils et services →
-Ajouter une intégration → AirParif**.
+[![Ouvrir dans Home Assistant](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=Djailla&repository=ha-airparif&category=integration)
+
+Cliquez sur le bouton ci-dessus pour ajouter ce dépôt au Marketplace de Home Assistant
+(version 2026.11 ou plus récente). Vous pouvez aussi copier `custom_components/airparif`
+dans le dossier `config/custom_components/` de votre Home Assistant.
+
+Redémarrez ensuite Home Assistant, puis allez dans **Paramètres → Appareils et
+services → Ajouter une intégration → AirParif**.
 
 ## Configuration
 
@@ -49,12 +55,59 @@ jour concerné. Les capteurs d'épisode sont indisponibles lorsque l'appel aux �
 
 Les données sont actualisées toutes les heures.
 
-## Avertissement
+---
 
-L'analyseur de réponses (`parser.py`) est volontairement tolérant, car il a été écrit
-sans pouvoir appeler l'API réelle. Si un capteur reste indisponible, ouvrez un ticket
-en joignant la sortie brute de :
+# AirParif for Home Assistant
 
-```bash
-curl -H "X-Api-Key: <clé>" "https://api.airparif.fr/indices/prevision/commune?insee=75117"
-```
+🇬🇧 English · 🇫🇷 [Français](#airparif-pour-home-assistant)
+
+Custom integration exposing, as Home Assistant sensors, the AirParif air-quality
+forecast for a commune (`/indices/prevision/commune`) and the Île-de-France pollution
+episodes (`/episodes/en-cours-et-prevus`).
+
+## Installation
+
+[![Open in Home Assistant](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=Djailla&repository=ha-airparif&category=integration)
+
+Click the button above to add this repository to the Home Assistant Marketplace
+(Home Assistant 2026.11 or later). You can also copy `custom_components/airparif`
+into the `config/custom_components/` folder of your Home Assistant.
+
+Then restart Home Assistant and go to **Settings → Devices & services → Add
+integration → AirParif**.
+
+## Configuration
+
+| Field | Description |
+|-------|-------------|
+| API key | Your AirParif API key (sent as the `X-Api-Key` header) |
+| INSEE code | 5-digit INSEE code of the commune, e.g. `75117` for Paris 17e |
+
+- **API key**: request one on the
+  [AirParif API page](https://www.airparif.fr/interface-de-programmation-applicative).
+- **INSEE code**: this is not the postal code. Look it up from the postal code in the
+  [INSEE / postal code table](https://hub.huwise.com/explore/assets/correspondance-code-insee-code-postal/view/).
+
+One config entry per commune. If the key is later rejected, Home Assistant starts a
+re-authentication flow.
+
+## Entities
+
+For each configured commune (one device):
+
+- **Air quality today / tomorrow**: ATMO index, an enum sensor with the states `bon`,
+  `moyen`, `degrade`, `mauvais`, `tres_mauvais`, `extremement_mauvais`. Attributes:
+  `index` (1 to 6), `forecast_date`, `pollutants`.
+- **NO₂, O₃, PM10, PM2.5, SO₂ today / tomorrow**: per-pollutant level. Today's are
+  enabled by default, tomorrow's are disabled by default.
+- **Pollution episode today / tomorrow**: binary sensor, `on` when a pollution
+  episode is ongoing or forecast. Episodes cover the whole region, not a single
+  commune. Attributes: `pollutants` (episode level per pollutant as reported by
+  AirParif, `null` when none) and `message` (AirParif's text, in French or English
+  depending on the Home Assistant language).
+
+Sensors are `unavailable` when the forecast does not cover the day. The episode
+sensors are `unavailable` when the episodes call fails; the forecast sensors keep
+working.
+
+Data is refreshed hourly.
