@@ -5,6 +5,10 @@
     "@Djailla"
   ],
   "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http"
+  ],
   "documentation": "https://github.com/Djailla/ha-airparif",
   "integration_type": "service",
   "iot_class": "cloud_polling",

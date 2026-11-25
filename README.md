@@ -55,6 +55,23 @@ jour concerné. Les capteurs d'épisode sont indisponibles lorsque l'appel aux �
 
 Les données sont actualisées toutes les heures.
 
+## Carte
+
+L'intégration fournit une carte de tableau de bord, chargée automatiquement : aucune
+ressource à ajouter. Elle affiche l'indice ATMO du jour et du lendemain avec les
+couleurs officielles, le niveau de chaque polluant et les épisodes de pollution en
+cours ou prévus. Un clic sur un élément ouvre le détail du capteur.
+
+Ajoutez-la depuis **Modifier le tableau de bord → Ajouter une carte → AirParif**, ou en
+YAML :
+
+```yaml
+type: custom:airparif-card
+device_id: <optionnel, par défaut le premier appareil AirParif>
+title: <optionnel, par défaut le nom de l'appareil>
+show_pollutants: true
+```
+
 ---
 
 # AirParif for Home Assistant
@@ -111,3 +128,19 @@ sensors are `unavailable` when the episodes call fails; the forecast sensors kee
 working.
 
 Data is refreshed hourly.
+
+## Card
+
+The integration ships a dashboard card that is loaded automatically: there is no
+resource to add. It shows today's and tomorrow's ATMO index in the official colors,
+the level of each pollutant, and any ongoing or forecast pollution episode. Clicking
+an item opens the sensor's details.
+
+Add it from **Edit dashboard → Add card → AirParif**, or in YAML:
+
+```yaml
+type: custom:airparif-card
+device_id: <optional, defaults to the first AirParif device>
+title: <optional, defaults to the device name>
+show_pollutants: true
+```

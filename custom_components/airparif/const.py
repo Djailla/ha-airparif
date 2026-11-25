@@ -8,6 +8,9 @@ from .parser import INDEX_LEVELS, POLLUTANTS
 
 DOMAIN = "airparif"
 
+# URL the dashboard card is served from.
+CARD_URL = f"/{DOMAIN}/airparif-card.js"
+
 CONF_API_KEY = "api_key"
 CONF_INSEE = "insee"
 
@@ -39,6 +42,7 @@ __all__ = [
     "API_KEY_URL",
     "ATTRIBUTION",
     "BASE_URL",
+    "CARD_URL",
     "CONF_API_KEY",
     "CONF_INSEE",
     "DOMAIN",
