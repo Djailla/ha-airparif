@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
+from dataclasses import dataclass
 from datetime import date
 from typing import Any
 
@@ -14,15 +16,23 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, Upda
 
 from .api import AirParifApiClient, AirParifApiError, AirParifAuthError
 from .const import CONF_API_KEY, CONF_INSEE, DOMAIN, SCAN_INTERVAL
-from .parser import normalize_forecast
+from .parser import normalize_episodes, normalize_forecast
 
 _LOGGER = logging.getLogger(__name__)
 
 type AirParifConfigEntry = ConfigEntry[AirParifCoordinator]
 
 
-class AirParifCoordinator(DataUpdateCoordinator[dict[date, dict[str, Any]]]):
-    """Fetch the commune forecast and index it by date."""
+@dataclass(frozen=True)
+class AirParifData:
+    """Forecast indexed by date, plus the region-wide pollution episodes."""
+
+    forecast: dict[date, dict[str, Any]]
+    episodes: dict[str, Any] | None
+
+
+class AirParifCoordinator(DataUpdateCoordinator[AirParifData]):
+    """Fetch the commune forecast and the pollution episodes."""
 
     config_entry: AirParifConfigEntry
 
@@ -40,15 +50,37 @@ class AirParifCoordinator(DataUpdateCoordinator[dict[date, dict[str, Any]]]):
             async_get_clientsession(hass), entry.data[CONF_API_KEY]
         )
 
-    async def _async_update_data(self) -> dict[date, dict[str, Any]]:
-        try:
-            payload = await self.client.async_get_forecast(self.insee)
-        except AirParifAuthError as err:
-            raise ConfigEntryAuthFailed(str(err)) from err
-        except AirParifApiError as err:
-            raise UpdateFailed(str(err)) from err
+    async def _async_update_data(self) -> AirParifData:
+        forecast_result, episodes_result = await asyncio.gather(
+            self.client.async_get_forecast(self.insee),
+            self.client.async_get_episodes(),
+            return_exceptions=True,
+        )
+        for result in (forecast_result, episodes_result):
+            if isinstance(result, AirParifAuthError):
+                raise ConfigEntryAuthFailed(str(result)) from result
 
-        entries = normalize_forecast(payload, self.insee)
+        if isinstance(forecast_result, AirParifApiError):
+            raise UpdateFailed(str(forecast_result)) from forecast_result
+        if isinstance(forecast_result, BaseException):
+            raise forecast_result
+        entries = normalize_forecast(forecast_result, self.insee)
         if not entries:
             raise UpdateFailed("AirParif returned no usable forecast data")
-        return {entry["date"]: entry for entry in entries}
+
+        # Episodes are secondary: a failure only makes the episode sensors
+        # unavailable instead of failing the whole update.
+        episodes: dict[str, Any] | None = None
+        if isinstance(episodes_result, AirParifApiError):
+            _LOGGER.warning("Could not fetch AirParif episodes: %s", episodes_result)
+        elif isinstance(episodes_result, BaseException):
+            raise episodes_result
+        else:
+            episodes = normalize_episodes(episodes_result)
+            if episodes is None:
+                _LOGGER.warning("AirParif returned an unexpected episodes payload")
+
+        return AirParifData(
+            forecast={entry["date"]: entry for entry in entries},
+            episodes=episodes,
+        )

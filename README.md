@@ -1,7 +1,8 @@
 # AirParif for Home Assistant
 
 Custom integration exposing the AirParif commune air-quality forecast
-(`/indices/prevision/commune`) as Home Assistant sensors.
+(`/indices/prevision/commune`) and the Île-de-France pollution episodes
+(`/episodes/en-cours-et-prevus`) as Home Assistant sensors.
 
 ## Installation
 
@@ -29,7 +30,15 @@ For each configured commune (one device):
 - **NO₂, O₃, PM10, PM2.5, SO₂ today / tomorrow**: per-pollutant level. Today's are
   enabled by default, tomorrow's are disabled by default.
 
-Sensors are `unavailable` when the forecast does not cover the day.
+- **Pollution episode today / tomorrow**: binary sensor, `on` when a pollution
+  episode is ongoing or forecast. Episodes are region-wide, not per commune.
+  Attributes: `pollutants` (episode level per pollutant as reported by AirParif,
+  `null` when none) and `message` (AirParif's text, in French or English
+  depending on the Home Assistant language).
+
+Sensors are `unavailable` when the forecast does not cover the day. The episode
+sensors are `unavailable` when the episodes endpoint fails; the forecast sensors
+keep working.
 
 Data is refreshed hourly.
 

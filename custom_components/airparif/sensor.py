@@ -75,7 +75,7 @@ class AirParifSensor(CoordinatorEntity[AirParifCoordinator], SensorEntity):
 
     @property
     def _level(self) -> dict[str, Any] | None:
-        entry = self.coordinator.data.get(self._target_date)
+        entry = self.coordinator.data.forecast.get(self._target_date)
         if entry is None:
             return None
         if self._pollutant is None:
@@ -103,7 +103,7 @@ class AirParifSensor(CoordinatorEntity[AirParifCoordinator], SensorEntity):
         if level is not None:
             attrs["index"] = level["index"]
         if self._pollutant is None:
-            entry = self.coordinator.data.get(self._target_date)
+            entry = self.coordinator.data.forecast.get(self._target_date)
             if entry:
                 attrs["pollutants"] = {
                     code: lvl["label"] or lvl["raw"]

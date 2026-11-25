@@ -7,7 +7,7 @@ from typing import Any
 
 import aiohttp
 
-from .const import BASE_URL, FORECAST_PATH, REQUEST_TIMEOUT
+from .const import BASE_URL, EPISODES_PATH, FORECAST_PATH, REQUEST_TIMEOUT
 
 
 class AirParifApiError(Exception):
@@ -27,7 +27,7 @@ class AirParifInvalidInseeError(AirParifApiError):
 
 
 class AirParifApiClient:
-    """Minimal client for the commune forecast endpoint."""
+    """Minimal client for the commune forecast and pollution episode endpoints."""
 
     def __init__(self, session: aiohttp.ClientSession, api_key: str) -> None:
         """Initialize the client."""
@@ -36,11 +36,18 @@ class AirParifApiClient:
 
     async def async_get_forecast(self, insee: str) -> Any:
         """Return the raw commune forecast payload."""
+        return await self._async_get(FORECAST_PATH, {"insee": insee})
+
+    async def async_get_episodes(self) -> Any:
+        """Return the raw current and forecast pollution episodes payload."""
+        return await self._async_get(EPISODES_PATH)
+
+    async def _async_get(self, path: str, params: dict[str, str] | None = None) -> Any:
         try:
             async with asyncio.timeout(REQUEST_TIMEOUT):
                 async with self._session.get(
-                    f"{BASE_URL}{FORECAST_PATH}",
-                    params={"insee": insee},
+                    f"{BASE_URL}{path}",
+                    params=params,
                     headers={"X-Api-Key": self._api_key},
                 ) as response:
                     if response.status in (401, 403):

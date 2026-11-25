@@ -34,6 +34,22 @@
     }
   },
   "entity": {
+    "binary_sensor": {
+      "episode_today": {
+        "name": "Pollution episode today",
+        "state": {
+          "on": "Episode",
+          "off": "No episode"
+        }
+      },
+      "episode_tomorrow": {
+        "name": "Pollution episode tomorrow",
+        "state": {
+          "on": "Episode",
+          "off": "No episode"
+        }
+      }
+    },
     "sensor": {
       "index_today": {
         "name": "Air quality today",

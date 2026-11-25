@@ -13,6 +13,7 @@ CONF_INSEE = "insee"
 
 BASE_URL = "https://api.airparif.fr"
 FORECAST_PATH = "/indices/prevision/commune"
+EPISODES_PATH = "/episodes/en-cours-et-prevus"
 REQUEST_TIMEOUT = 20
 
 # The forecast is published once a day; an hourly poll is plenty.
@@ -34,6 +35,7 @@ __all__ = [
     "CONF_API_KEY",
     "CONF_INSEE",
     "DOMAIN",
+    "EPISODES_PATH",
     "FORECAST_PATH",
     "INDEX_LEVELS",
     "POLLUTANTS",

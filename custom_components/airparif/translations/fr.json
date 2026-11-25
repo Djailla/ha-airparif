@@ -34,6 +34,22 @@
     }
   },
   "entity": {
+    "binary_sensor": {
+      "episode_today": {
+        "name": "Épisode de pollution aujourd'hui",
+        "state": {
+          "on": "Épisode",
+          "off": "Aucun épisode"
+        }
+      },
+      "episode_tomorrow": {
+        "name": "Épisode de pollution demain",
+        "state": {
+          "on": "Épisode",
+          "off": "Aucun épisode"
+        }
+      }
+    },
     "sensor": {
       "index_today": {
         "name": "Qualité de l'air aujourd'hui",

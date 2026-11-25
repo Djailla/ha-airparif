@@ -185,3 +185,52 @@ def normalize_forecast(payload: Any, insee: str) -> list[dict[str, Any]]:
         results.append({"date": day, "global": global_level, "pollutants": pollutants})
     results.sort(key=lambda item: item["date"])
     return results
+
+
+_EPISODE_DAYS = {"today": "jour", "tomorrow": "demain"}
+_NO_LEVEL = {"", "-", "aucun", "none"}
+
+
+def _episode_day(data: Any) -> dict[str, Any] | None:
+    if not isinstance(data, dict):
+        return None
+    pollutants: dict[str, str | None] = {}
+    for item in data.get("polluants") or []:
+        if not isinstance(item, dict) or not isinstance(item.get("nom"), str):
+            continue
+        code = _pollutant_code(item["nom"])
+        if code is None:
+            continue
+        raw = item.get("niveau")
+        level = _slug(raw) if isinstance(raw, str) else None
+        pollutants[code] = None if not level or raw.strip() in _NO_LEVEL else level
+    active = data.get("actif")
+    if not isinstance(active, bool):
+        active = any(level is not None for level in pollutants.values())
+    return {"active": active, "pollutants": pollutants}
+
+
+def normalize_episodes(payload: Any) -> dict[str, Any] | None:
+    """Return {'active', 'message', 'days': {'today'|'tomorrow': {...}}}.
+
+    Each day is {'active': bool, 'pollutants': {code: level slug or None}}.
+    Returns None when the payload does not look like an episodes response.
+    """
+    if not isinstance(payload, dict):
+        return None
+    days = {
+        day: parsed
+        for day, key in _EPISODE_DAYS.items()
+        if (parsed := _episode_day(payload.get(key))) is not None
+    }
+    if not days:
+        return None
+    message = payload.get("message")
+    if isinstance(message, str):
+        message = {"fr": message, "en": message}
+    elif not isinstance(message, dict):
+        message = {}
+    active = payload.get("actif")
+    if not isinstance(active, bool):
+        active = any(day["active"] for day in days.values())
+    return {"active": active, "message": message, "days": days}
