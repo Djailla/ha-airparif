@@ -57,10 +57,15 @@ Les données sont actualisées toutes les heures.
 
 ## Carte
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Djailla/ha-airparif/main/docs/card-dark.png">
+  <img src="https://raw.githubusercontent.com/Djailla/ha-airparif/main/docs/card-light.png" alt="Carte AirParif : indice ATMO du jour et du lendemain, niveau de chaque polluant et épisodes de pollution" width="544">
+</picture>
+
 L'intégration fournit une carte de tableau de bord, chargée automatiquement : aucune
 ressource à ajouter. Elle affiche l'indice ATMO du jour et du lendemain avec les
-couleurs officielles, le niveau de chaque polluant et les épisodes de pollution en
-cours ou prévus. Un clic sur un élément ouvre le détail du capteur.
+couleurs officielles, le niveau de chaque polluant, l'échelle ATMO et les épisodes de
+pollution en cours ou prévus. Un clic sur un élément ouvre le détail du capteur.
 
 Ajoutez-la depuis **Modifier le tableau de bord → Ajouter une carte → AirParif**, ou en
 YAML :
@@ -70,7 +75,16 @@ type: custom:airparif-card
 device_id: <optionnel, par défaut le premier appareil AirParif>
 title: <optionnel, par défaut le nom de l'appareil>
 show_pollutants: true
+tint: true            # teinte chaque jour avec la couleur de son indice
+colors:               # optionnel : remplace les couleurs officielles ATMO
+  bon: "#2E7D32"      # toute couleur CSS…
+  moyen: [21, 101, 192]  # …ou [r, g, b]
 ```
+
+Les niveaux personnalisables sont `bon`, `moyen`, `degrade`, `mauvais`,
+`tres_mauvais` et `extremement_mauvais`. Les couleurs se choisissent aussi dans
+l'éditeur visuel, section **Couleurs de qualité de l'air**. La couleur du texte
+s'adapte automatiquement pour rester lisible.
 
 ---
 
@@ -131,10 +145,15 @@ Data is refreshed hourly.
 
 ## Card
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Djailla/ha-airparif/main/docs/card-dark.png">
+  <img src="https://raw.githubusercontent.com/Djailla/ha-airparif/main/docs/card-light.png" alt="AirParif card: today's and tomorrow's ATMO index, each pollutant's level and pollution episodes" width="544">
+</picture>
+
 The integration ships a dashboard card that is loaded automatically: there is no
 resource to add. It shows today's and tomorrow's ATMO index in the official colors,
-the level of each pollutant, and any ongoing or forecast pollution episode. Clicking
-an item opens the sensor's details.
+the level of each pollutant, the ATMO scale, and any ongoing or forecast pollution
+episode. Clicking an item opens the sensor's details.
 
 Add it from **Edit dashboard → Add card → AirParif**, or in YAML:
 
@@ -143,4 +162,13 @@ type: custom:airparif-card
 device_id: <optional, defaults to the first AirParif device>
 title: <optional, defaults to the device name>
 show_pollutants: true
+tint: true            # tint each day with its index color
+colors:               # optional: override the official ATMO colors
+  bon: "#2E7D32"      # any CSS color…
+  moyen: [21, 101, 192]  # …or [r, g, b]
 ```
+
+The levels you can recolor are `bon`, `moyen`, `degrade`, `mauvais`,
+`tres_mauvais` and `extremement_mauvais`. Colors can also be picked in the visual
+editor, under **Air-quality colors**. The text color adapts automatically to stay
+readable.
