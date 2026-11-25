@@ -22,7 +22,7 @@ services → Ajouter une intégration → AirParif**.
 
 | Champ | Description |
 |-------|-------------|
-| Clé d'API | Votre clé d'API AirParif (envoyée dans l'en-tête `X-Api-Key`) |
+| Clé d'API | Votre clé d'API AirParif |
 | Code INSEE | Code INSEE à 5 chiffres de la commune, par exemple `75117` pour Paris 17e |
 
 - **Clé d'API** : demandez-la sur la
@@ -97,7 +97,7 @@ integration → AirParif**.
 
 | Field | Description |
 |-------|-------------|
-| API key | Your AirParif API key (sent as the `X-Api-Key` header) |
+| API key | Your AirParif API key |
 | INSEE code | 5-digit INSEE code of the commune, e.g. `75117` for Paris 17e |
 
 - **API key**: request one on the
